@@ -1,4 +1,9 @@
-# Avoiding `#if`
+---
+layout: post
+title:  "Compile-time features in C++"
+date:   2019-11-18 23:46:22 +0000
+categories: jekyll update
+---
 
 Or, "hey, can we go back to using `#if` please?"
 

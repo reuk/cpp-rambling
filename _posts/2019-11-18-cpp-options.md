@@ -65,6 +65,7 @@ There must be a better way.
 The OOP 'solution' to this problem would be to turn our widget into a virtual base class:
 
 ```cpp
+// Really don't do this!
 class WidgetBase
 {
 public:
@@ -157,7 +158,7 @@ Here, we're using normal function overloading to accomplish the same thing as th
 from the previous solution. This time, there's no virtual dispatch overhead, which is already an
 improvement. Unfortunately we're still going to have to scatter around lots of `#if`s if we try
 to use this directly. Let's try turning our structs into template struct specialisations instead.
-That normally helps.
+That normally helps. We start by defining a new type to describe the current app mode:
 
 ```cpp
 enum class AppMode
@@ -165,7 +166,6 @@ enum class AppMode
     coolOff,
     coolOn,
 };
-
 ```
 
 Now, instead of explicitly using `CoolDataMembers` or `LameDataMembers`, we can do something like
@@ -240,7 +240,8 @@ from the outer function (`getWidgetHeight`) into the specialised function (`getA
 which can lead to nasty long parameter lists. The real pain starts when only one mode needs to
 know about the local variables, because we need all overloads of `getAdditionalHeight` to share
 the same parameter list. This means that one of our specialised functions will have a bunch of
-unused unnecessary parameters.
+unused parameters, and unless the compiler gets clever with inlining you'll have to pass all of
+those parameters (thanks ABI).
 
 ## Coolness Overload
 
